@@ -15,6 +15,14 @@
 		<div id="listarea">
 			<ul id="musiclist">
 			<?php 
+			if(isset($_REQUEST["playlist"])){
+			$playlist = $_REQUEST["playlist"];
+			$list = file("./songs/{$playlist}");
+			foreach($list as $music){
+			?>
+			<li class ="mp3item"><a href="<?php echo $music;?>"><?php echo basename($music);?></a></li>
+			<?php }}
+			else{
 			foreach(glob("./songs/*.mp3") as $filename){
 			?>
 			<li class="mp3item"><a href="<?php echo $filename;?>"><?php echo basename($filename);?></a></li>
@@ -22,10 +30,12 @@
 			foreach(glob("./songs/*.txt") as $playlist){	
 			?>
 			<li class="playlistitem"><a href="<?php echo $playlist;?>"><?php echo basename($playlist);?></a></li>
-			<?php }
+			<?php }}
 			?>
 			</ul>
 		</div>
+		<?php
+		?>
 		
 	</body>
 </html>
