@@ -19,13 +19,43 @@
 			$playlist = $_REQUEST["playlist"];
 			$list = file("./songs/{$playlist}");
 			foreach($list as $music){
+				$file_size = filesize("./songs/".trim($music));
 			?>
-			<li class ="mp3item"><a href="<?php echo $music;?>"><?php echo basename($music);?></a></li>
+			<li class ="mp3item">
+				<a href="<?php echo $music;?>"><?php echo basename($music);?></a>
+				<?php
+				if($file_size>=0&&$file_size<=1023) 
+					echo "(".$file_size." b)";
+				else if($file_size>=1024&&$file_size<=1048575){
+					$kb = round($file_size/1024,2);
+					echo "(".$kb." kb)";
+				}
+				else if($file_size>=1048576){
+					$mb = round($file_size/1048576,2);
+					echo "(".$mb." mb)";
+				}
+				?>
+			</li>
 			<?php }}
 			else{
 			foreach(glob("./songs/*.mp3") as $filename){
+				$file_size = filesize($filename);
 			?>
-			<li class="mp3item"><a href="<?php echo $filename;?>"><?php echo basename($filename);?></a></li>
+			<li class="mp3item">
+				<a href="<?php echo $filename;?>"><?php echo basename($filename);?></a>
+				<?php
+				if($file_size>=0&&$file_size<=1023) 
+					echo "(".$file_size." b)";
+				else if($file_size>=1024&&$file_size<=1048575){
+					$kb = round($file_size/1024,2);
+					echo "(".$kb." kb)";
+				}
+				else if($file_size>=1048576){
+					$mb = round($file_size/1048576,2);
+					echo "(".$mb." mb)";
+				}
+				?>
+			</li>
 			<?php }
 			foreach(glob("./songs/*.txt") as $playlist){	
 			?>
