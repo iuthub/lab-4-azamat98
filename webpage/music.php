@@ -8,13 +8,24 @@
 	</head>
 	<body>
 		<div id="header">
-		
 			<h1>190M Music Playlist Viewer</h1>
 			<h2>Search Through Your Playlists and Music</h2>
 		</div>
 		<div id="listarea">
 			<ul id="musiclist">
-			<?php 
+			<?php
+			function print_size($size){
+				if($size>=0&&$size<=1023) 
+					echo "(".$size." b)";
+				else if($size>=1024&&$size<=1048575){
+					$kb = round($size/1024,2);
+					echo "(".$kb." kb)";
+				}
+				else if($size>=1048576){
+					$mb = round($size/1048576,2);
+					echo "(".$mb." mb)";
+				}
+			}
 			if(isset($_REQUEST["playlist"])){
 			$playlist = $_REQUEST["playlist"];
 			$list = file("./songs/{$playlist}");
@@ -24,16 +35,7 @@
 			<li class ="mp3item">
 				<a href="<?php echo $music;?>"><?php echo basename($music);?></a>
 				<?php
-				if($file_size>=0&&$file_size<=1023) 
-					echo "(".$file_size." b)";
-				else if($file_size>=1024&&$file_size<=1048575){
-					$kb = round($file_size/1024,2);
-					echo "(".$kb." kb)";
-				}
-				else if($file_size>=1048576){
-					$mb = round($file_size/1048576,2);
-					echo "(".$mb." mb)";
-				}
+				print_size($file_size);
 				?>
 			</li>
 			<?php }}
@@ -44,16 +46,7 @@
 			<li class="mp3item">
 				<a href="<?php echo $filename;?>"><?php echo basename($filename);?></a>
 				<?php
-				if($file_size>=0&&$file_size<=1023) 
-					echo "(".$file_size." b)";
-				else if($file_size>=1024&&$file_size<=1048575){
-					$kb = round($file_size/1024,2);
-					echo "(".$kb." kb)";
-				}
-				else if($file_size>=1048576){
-					$mb = round($file_size/1048576,2);
-					echo "(".$mb." mb)";
-				}
+				print_size($file_size);
 				?>
 			</li>
 			<?php }
@@ -66,6 +59,5 @@
 		</div>
 		<?php
 		?>
-		
 	</body>
 </html>
